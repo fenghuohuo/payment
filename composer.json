@@ -1,0 +1,28 @@
+{
+  "name": "fenghuohuo/payment",
+  "description": "My template of composer project!",
+  "keywords": [
+    "fenghuohuo",
+    "payment"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "fenghuohuo",
+      "email": "446100702@qq.com",
+      "homepage": "https://github.com/fenghouhuo",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "@stable"
+  },
+  "autoload": {
+    "psr-4": {
+      "fenghuohuo\\payment\\": "src/"
+    }
+  }
+}
