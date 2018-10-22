@@ -26,45 +26,25 @@ composer require "fenghuohuo/payment" -vvv
 |微信H5支付|wx_h5|
 
 ```$xslt
-    try {
-            $payment = new Payment($channel, $platform);
-            $processResult = $payment->orderProcess($data, [
-                'appId'    => $appId,
-                'cid'      => $cid,
-                'platform' => $platform,
-                'channel'  => $channel
-            ]);
-            // code: 0返回成功，1验证失败，2,订单不存在，3金额不批对，4记录添加失败，5钻石发放失败
-            $this->response->setData(['response' => $processResult['response']]);
-            if ($processResult['code'] == 0) {
-                $this->send();
-                if (isset($processResult['order'])) {
-                    $order = $processResult['order'];
-                    $setData = [
-                        'channel'     => $order['channel'],
-                        'uid'         => $order['uid'],
-                        'pid'         => $order['pid'],
-                        'orderId'     => $order['orderId'],
-                        'amount'      => $order['amount'],
-                        'clientIp'    => $order['clientIp'],
-                        'cid'         => $order['cid'],
-                        'client'      => $order['client'],
-                        'platform'    => $order['platform'],
-                        'paySource'   => $order['paySource'],
-                        'sendDiamond' => $order['sendDiamond'],
-                        'depDiamond'  => $order['depDiamond'],
-                        'extra'       => json_decode($order['extra'], true),
-                        'paid'        => 1, //已支付
-                        'agent'       => 0
-                    ];
-                    //发送事件到nsq进行异步任务处理
-                    Nsq::send($setData);
-                }
-            } else {
-                $this->send($processResult['code']);
+    public function testCreate()
+        {
+            try {
+                $channel = 'alipay';
+                $order = (object)[
+                    'orderId'  => '111',
+                    'amount'   => 100,
+                    'subject'  => '测试商品',
+                    'body'     => '商品详情',
+                    'pid'      => 1, // 商品id
+                    'clientIp' => '111', // 客户端设备id
+                    'extra'    => '', // 额外参数 json {"openid":"111"}
+                ];
+                $payment = new Payment($channel);
+                $payment->createOrder($order);
+    
+                var_dump($order);
+            } catch (\Exception $exception) {
+                throw $exception;
             }
-        } catch (\Exception $e) {
-            Log::error('验证订单发生失败' . $e->getMessage() . 'data:' . json_encode($data));
-            $this->send(static::ERROR_HANDLE_NOTIFY_FAIL);
         }
 ```
