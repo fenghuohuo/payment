@@ -30,7 +30,7 @@ class Test extends TestCase
             $payment = new Payment($channel);
             $payment->createOrder($order);
 
-            return $order;
+            var_dump($order);
         } catch (\Exception $exception) {
             throw $exception;
         }
