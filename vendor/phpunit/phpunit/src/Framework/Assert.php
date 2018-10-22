@@ -60,7 +60,6 @@ use PHPUnit\Util\Xml;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionObject;
-use ReflectionProperty;
 use Traversable;
 
 /**
@@ -288,8 +287,6 @@ abstract class Assert
     /**
      * Asserts that a haystack contains only values of a given type.
      *
-     * @param null|bool $isNativeType
-     *
      * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
@@ -349,8 +346,6 @@ abstract class Assert
 
     /**
      * Asserts that a haystack does not contain only values of a given type.
-     *
-     * @param null|bool $isNativeType
      *
      * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
@@ -1779,13 +1774,8 @@ abstract class Assert
      */
     public static function assertEqualXMLStructure(DOMElement $expectedElement, DOMElement $actualElement, bool $checkAttributes = false, string $message = ''): void
     {
-        $tmp             = new DOMDocument;
-        $expectedElement = $tmp->importNode($expectedElement, true);
-
-        $tmp           = new DOMDocument;
-        $actualElement = $tmp->importNode($actualElement, true);
-
-        unset($tmp);
+        $expectedElement = Xml::import($expectedElement);
+        $actualElement   = Xml::import($actualElement);
 
         static::assertSame(
             $expectedElement->tagName,
@@ -1806,8 +1796,11 @@ abstract class Assert
             );
 
             for ($i = 0; $i < $expectedElement->attributes->length; $i++) {
+                /** @var \DOMAttr $expectedAttribute */
                 $expectedAttribute = $expectedElement->attributes->item($i);
-                $actualAttribute   = $actualElement->attributes->getNamedItem(
+
+                /** @var \DOMAttr $actualAttribute */
+                $actualAttribute = $actualElement->attributes->getNamedItem(
                     $expectedAttribute->name
                 );
 
@@ -2351,30 +2344,25 @@ abstract class Assert
         }
 
         try {
-            $attribute = new ReflectionProperty($object, $attributeName);
-        } catch (ReflectionException $e) {
             $reflector = new ReflectionObject($object);
 
-            while ($reflector = $reflector->getParentClass()) {
+            do {
                 try {
                     $attribute = $reflector->getProperty($attributeName);
 
-                    break;
+                    if (!$attribute || $attribute->isPublic()) {
+                        return $object->$attributeName;
+                    }
+
+                    $attribute->setAccessible(true);
+                    $value = $attribute->getValue($object);
+                    $attribute->setAccessible(false);
+
+                    return $value;
                 } catch (ReflectionException $e) {
                 }
-            }
-        }
-
-        if (isset($attribute)) {
-            if (!$attribute || $attribute->isPublic()) {
-                return $object->$attributeName;
-            }
-
-            $attribute->setAccessible(true);
-            $value = $attribute->getValue($object);
-            $attribute->setAccessible(false);
-
-            return $value;
+            } while ($reflector = $reflector->getParentClass());
+        } catch (ReflectionException $e) {
         }
 
         throw new Exception(
