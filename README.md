@@ -13,7 +13,7 @@ composer require "fenghuohuo/payment" -vvv
 ```
 
 ## Usage
-###channel 支付平台(支付宝/微信)
+### channel 支付平台(支付宝/微信)
 
 | 支付渠道 |   参数     |
 | :-----: | :-------: |
