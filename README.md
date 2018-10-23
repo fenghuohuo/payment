@@ -14,7 +14,7 @@ composer require "fenghuohuo/payment" -vvv
 
 ## Usage
 ###channel 支付平台(支付宝/微信)
-| 支付渠道 |参数 |
+| 支付渠道 | 参数 |
 | :---: | :---: |
 | 支付宝APP支付 | alipay |
 | 付宝web支付 | alipay_wap |
@@ -24,6 +24,18 @@ composer require "fenghuohuo/payment" -vvv
 | 微信公众号支付 | wx_pub |
 | 微信二维码支付 | wx_pub_qr |
 | 微信H5支付 | wx_h5 |
+
+| method |   描述     |
+| :-----: | :-------: |
+| mp      | 公众号支付  |
+| miniapp | 小程序支付  |
+| wap     | H5 支付    |
+| scan    | 扫码支付    |
+| pos     | 刷卡支付    |
+| app     | APP 支付  |
+| transfer     | 企业付款 |
+| redpack      | 普通红包 |
+| groupRedpack | 分裂红包 |
 
 ```$xslt
     public function testCreate()
