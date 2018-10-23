@@ -15,7 +15,7 @@ composer require "fenghuohuo/payment" -vvv
 ## Usage
 ###channel 支付平台(支付宝/微信)
 | 支付渠道 |参数 |
-| :---: | --- |
+| :---: | :---: |
 | 支付宝APP支付 | alipay |
 | 付宝web支付 | alipay_wap |
 | 支付宝二维码支付 | alipay_qr |
