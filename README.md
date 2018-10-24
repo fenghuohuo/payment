@@ -26,6 +26,11 @@ composer require "fenghuohuo/payment" -vvv
 | 微信二维码支付     | wx_pub_qr |
 | 微信H5支付      | wx_h5 |
 
+### 配置文件 
+```$xslt
+/src/Config.php
+```
+
 ### 用例
 ```$xslt
     public function testCreate()
