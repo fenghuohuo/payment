@@ -1,10 +1,10 @@
 # payment
 ---
-## 支付sdk集合
 
-* 支持composer
-* 支持支付宝
-* 支持微信
+[![Latest Stable Version](https://poser.pugx.org/fenghuohuo/payment/v/stable)](https://packagist.org/packages/fenghuohuo/payment)
+[![Total Downloads](https://poser.pugx.org/fenghuohuo/payment/downloads)](https://packagist.org/packages/fenghuohuo/payment)
+[![Latest Unstable Version](https://poser.pugx.org/fenghuohuo/payment/v/unstable)](https://packagist.org/packages/fenghuohuo/payment)
+[![License](https://poser.pugx.org/fenghuohuo/payment/license)](https://packagist.org/packages/fenghuohuo/payment)
 
 ## Installation
 
